@@ -53,6 +53,7 @@ pipeline {
                         sed -i "/# DB_PASSWORD=/c\\DB_PASSWORD=${DB_PASSWORD}" "./.env"
                         cd ..
                     '''
+                }
             }
         }
     }
