@@ -86,13 +86,13 @@ pipeline {
                             current_time=$(date +%s)
                             elapsed_time=$((current_time - start_time))
 
-                            if [ "$elapsed_time" -ge "$MAX_WAIT" ]; then
+                            if [ "$elapsed_time" -ge "${MAX_WAIT}" ]; then
                                 echo "Se agotó el tiempo de espera. MySQL no está listo."
                                 exit 1
                             fi
 
                             # Esperar antes de volver a intentar
-                            sleep "$WAIT_INTERVAL"
+                            sleep "${WAIT_INTERVAL}"
                         done
                     '''
                     // Ejecutar los comandos de key:generate y migrate
