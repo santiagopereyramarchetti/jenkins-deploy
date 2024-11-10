@@ -7,6 +7,7 @@ pipeline {
 
         API_IMAGE_NAME = "santiagopereyramarchetti/api:1.2"
         API_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.laravel"
+        API_CONTAINER_NAME = "api"
 
         NGINX_IMAGE_NAME = "santiagopereyramarchetti/nginx:1.2"
         NGINX_DOCKERFILE_PATH = "./docker/nginx/Dockerfile.nginx"
@@ -55,14 +56,14 @@ pipeline {
                     '''
                     sh 'docker network create my_app'
 
-                    sh 'docker run -d --name api --network my_app ${API_IMAGE_NAME}'
+                    sh 'docker run -d --name ${API_CONTAINER_NAME} --network my_app ${API_IMAGE_NAME}'
                 }
             }
         }
         stage('Analisis de código estático'){
             steps{
                 script{
-                   sh "docker exec api ./vendor/bin/phpstan analyse"
+                   sh 'docker exec ${API_CONTAINER_NAME} ./vendor/bin/phpstan analyse'
                 }
             }
         }
@@ -72,7 +73,8 @@ pipeline {
         always{
             script{
                 sh 'docker stop ${API_IMAGE_NAME} || true'
-                sh 'docker rm ${API_IMAGE_NAME} || true'
+                sh 'docker rm -f ${API_CONTAINER_NAME} || true'
+                sh 'docker rmi -f ${API_IMAGE_NAME} || true'
                 sh 'docker network rm my_app || true'
             }
         }
