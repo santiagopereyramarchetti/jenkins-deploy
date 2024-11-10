@@ -12,7 +12,7 @@ pipeline {
         NGINX_DOCKERFILE_PATH = "./docker/nginx/Dockerfile.nginx"
 
         FRONTEND_IMAGE_NAME = "santiagopereyramarchetti/frontend:1.2"
-        FRONTEND_DOCKERFILE_PATH = "./docker/frontend/Dockerfile.vue"
+        FRONTEND_DOCKERFILE_PATH = "./docker/vue/Dockerfile.vue"
         FRONTEND_TARGET_STAGE = "prod"
 
         PROXY_IMAGE_NAME = "santiagopereyramarchetti/proxy:1.2"
