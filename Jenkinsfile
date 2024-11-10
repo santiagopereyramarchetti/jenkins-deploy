@@ -68,12 +68,19 @@ pipeline {
                 }
             }
         }
+        stage('Analisis de la calidad del código'){
+            steps{
+                script{
+                   sh 'php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90'
+                }
+            }
+        }
     }
 
     post{
         always{
             script{
-                sh 'docker stop ${API_IMAGE_NAME} || true'
+                sh 'docker stop ${API_CONTAINER_NAME} || true'
                 sh 'docker rm -f ${API_CONTAINER_NAME} || true'
                 sh 'docker rmi -f ${API_IMAGE_NAME} || true'
                 sh 'docker network rm my_app || true'
