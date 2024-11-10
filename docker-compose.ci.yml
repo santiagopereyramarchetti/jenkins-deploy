@@ -48,6 +48,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/laravel/Dockerfile.laravel
+      target: dev
     restart: unless-stopped
     volumes:
       - ./backend/app:/usr/src/app
@@ -57,7 +58,7 @@ services:
       - ./backend/storage:/usr/src/storage 
       - ./backend/tests:/usr/src/test 
       - ./backend/composer.json:/usr/src/composer.json 
-      - ./backend/composer.lock:/usr/src/composer.lock 
+      - ./backend/composer.lock:/usr/src/composer.lock
       - ./backend/.env:/usr/src/.env
     depends_on:
       - mysql
