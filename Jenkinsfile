@@ -71,7 +71,7 @@ pipeline {
         stage('Analisis de la calidad del código'){
             steps{
                 script{
-                   sh 'php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90'
+                   sh 'docker exec ${API_CONTAINER_NAME} php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90'
                 }
             }
         }
