@@ -1,11 +1,10 @@
 pipeline {
     agent any
-    
+
     stages{
-        stage('Actualizando repositorio'){
+        stage('Buildeando images'){
             steps{
-                
-                echo 'Repositorio actualizado'
+                sh 'docker-compose up -d --build'
             }
         }
     }
