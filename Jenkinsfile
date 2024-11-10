@@ -127,18 +127,22 @@ pipeline {
         }
         stage('Pusheando images hacia Dockerhub'){
             steps{
-                withCredentials([usernamePassword(credentialsId: dockerhub, passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
-                    sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    app.push($MYSQL_IMAGE_NAME)
+                    app.push($API_IMAGE_NAME)
+                    app.push($NGINX_IMAGE_NAME)
+                    app.push($FRONTEND_IMAGE_NAME)
+                    app.push($PROXY_IMAGE_NAME)
                 }
-                script{
-                    sh '''
-                        docker push ${MYSQL_IMAGE_NAME}
-                        docker push ${API_IMAGE_NAME}
-                        docker push ${NGINX_IMAGE_NAME}
-                        docker push ${FRONTEND_IMAGE_NAME}
-                        docker push ${PROXY_IMAGE_NAME}
-                    '''
-                }
+                // script{
+                //     sh '''
+                //         docker push ${MYSQL_IMAGE_NAME}
+                //         docker push ${API_IMAGE_NAME}
+                //         docker push ${NGINX_IMAGE_NAME}
+                //         docker push ${FRONTEND_IMAGE_NAME}
+                //         docker push ${PROXY_IMAGE_NAME}
+                //     '''
+                // }
             }
         }
     }
