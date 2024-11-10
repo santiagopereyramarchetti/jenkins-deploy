@@ -42,9 +42,9 @@ pipeline {
                 script{
                     docker.build(MYSQL_IMAGE_NAME, "-f ${MYSQL_DOCKERFILE_PATH} --no-cache .")
                     docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_PATH} --no-cache --target ${API_TARGET_STAGE} .")
-                    docker.build(NGINX_IMAGE_NAME, "-f ${NGINX_DOCKERFILE_PATH} .")
-                    docker.build(FRONTEND_IMAGE_NAME, "-f ${FRONTEND_DOCKERFILE_PATH} --target ${FRONTEND_TARGET_STAGE} .")
-                    docker.build(PROXY_IMAGE_NAME, "-f ${PROXY_DOCKERFILE_PATH} --target ${PROXY_TARGET_STAGE} .")
+                    docker.build(NGINX_IMAGE_NAME, "-f ${NGINX_DOCKERFILE_PATH} --no-cache .")
+                    docker.build(FRONTEND_IMAGE_NAME, "-f ${FRONTEND_DOCKERFILE_PATH} --no-cache --target ${FRONTEND_TARGET_STAGE} .")
+                    docker.build(PROXY_IMAGE_NAME, "-f ${PROXY_DOCKERFILE_PATH} --no-cache --target ${PROXY_TARGET_STAGE} .")
                 }
             }
         }
@@ -95,7 +95,7 @@ pipeline {
                             sleep "${WAIT_INTERVAL}"
                         done
                     '''
-                    // Ejecutar los comandos de key:generate y migrate
+
                     sh '''
                         docker exec ${API_CONTAINER_NAME} php artisan key:generate
                         docker exec ${API_CONTAINER_NAME} php artisan storage:link
@@ -121,7 +121,7 @@ pipeline {
         stage('Tests unitarios'){
             steps{
                 script{
-                   sh ''
+                   sh 'docker exec ${API_CONTAINER_NAME} php artisan test'
                 }
             }
         }
