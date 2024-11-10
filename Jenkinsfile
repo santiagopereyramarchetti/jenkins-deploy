@@ -4,7 +4,7 @@ pipeline {
     stages{
         stage('Buildeando images'){
             steps{
-                sh 'docker-compose up -d --build'
+                sh 'docker version'
             }
         }
     }
