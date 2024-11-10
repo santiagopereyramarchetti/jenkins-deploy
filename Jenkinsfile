@@ -71,9 +71,9 @@ pipeline {
     post{
         always{
             script{
-                sh 'docker stop ${API_IMAGE_NAME}'
-                sh 'docker rm ${API_IMAGE_NAME}'
-                sh 'docker network rm my_app'
+                sh 'docker stop ${API_IMAGE_NAME} || true'
+                sh 'docker rm ${API_IMAGE_NAME} || true'
+                sh 'docker network rm my_app || true'
             }
         }
     }
