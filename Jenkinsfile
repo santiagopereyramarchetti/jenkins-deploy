@@ -3,20 +3,20 @@ pipeline {
 
     environment {        
         MYSQL_IMAGE_NAME = "santiagopereyramarchetti/mysql:1.2"
-        MYSQL_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.mysql"
+        MYSQL_DOCKERFILE_PATH = "./docker/mysql/Dockerfile.mysql"
 
         API_IMAGE_NAME = "santiagopereyramarchetti/api:1.2"
         API_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.laravel"
 
         NGINX_IMAGE_NAME = "santiagopereyramarchetti/nginx:1.2"
-        NGINX_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.nginx"
+        NGINX_DOCKERFILE_PATH = "./docker/nginx/Dockerfile.nginx"
 
         FRONTEND_IMAGE_NAME = "santiagopereyramarchetti/frontend:1.2"
-        FRONTEND_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.vue"
+        FRONTEND_DOCKERFILE_PATH = "./docker/frontend/Dockerfile.vue"
         FRONTEND_TARGET_STAGE = "prod"
 
         PROXY_IMAGE_NAME = "santiagopereyramarchetti/proxy:1.2"
-        PROXY_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.proxy"
+        PROXY_DOCKERFILE_PATH = "./docker/proxy/Dockerfile.proxy"
         PROXY_TARGET_STAGE = "prod"
     }
 
