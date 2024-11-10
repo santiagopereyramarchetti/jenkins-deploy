@@ -68,7 +68,7 @@ pipeline {
 
                     sh 'docker run -d --name ${REDIS_CONTAINER_NAME} --network my_app ${REDIS_IMAGE_NAME}'
                     
-                    sh 'docker run -d --name ${API_CONTAINER_NAME --network my_app ${API_IMAGE_NAME}'
+                    sh 'docker run -d --name ${API_CONTAINER_NAME} --network my_app ${API_IMAGE_NAME}'
 
                     sh '''
                         start_time=$(date +%s)
@@ -131,8 +131,17 @@ pipeline {
         always{
             script{
                 sh 'docker stop ${API_CONTAINER_NAME} || true'
+                sh 'docker stop ${MYSQL_CONTAINER_NAME} || true'
+                sh 'docker stop ${REDIS_CONTAINER_NAME} || true'
+
                 sh 'docker rm -f ${API_CONTAINER_NAME} || true'
+                sh 'docker rm -f ${MYSQL_CONTAINER_NAME} || true'
+                sh 'docker rm -f ${REDIS_CONTAINER_NAME} || true'
+
                 sh 'docker rmi -f ${API_IMAGE_NAME} || true'
+                sh 'docker rmi -f ${MYSQL_IMAGE_NAME} || true'
+                sh 'docker rmi -f ${REDIS_IMAGE_NAME} || true'
+
                 sh 'docker network rm my_app || true'
             }
         }
