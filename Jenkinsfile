@@ -10,7 +10,9 @@ pipeline {
     stages{
         stage('Buildeando images'){
             steps{
-                docker.build("$API_IMAGE_NAME", "-f $API_DOCKERFILE_NAME $API_DOCKERFILE_PATH")
+                    script{
+                        docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_NAME} ${API_DOCKERFILE_PATH}")
+                    }
             }
         }
     }
