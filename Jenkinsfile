@@ -11,7 +11,7 @@ pipeline {
         stage('Buildeando images'){
             steps{
                     script{
-                        docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_NAME} ${API_DOCKERFILE_PATH}")
+                        docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_PATH} ${API_DOCKERFILE_NAME}")
                     }
             }
         }
