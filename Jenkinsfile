@@ -127,12 +127,14 @@ pipeline {
         }
         stage('Pusheando images hacia Dockerhub'){
             steps{
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                    app.push($MYSQL_IMAGE_NAME)
-                    app.push($API_IMAGE_NAME)
-                    app.push($NGINX_IMAGE_NAME)
-                    app.push($FRONTEND_IMAGE_NAME)
-                    app.push($PROXY_IMAGE_NAME)
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        app.push($MYSQL_IMAGE_NAME)
+                        app.push($API_IMAGE_NAME)
+                        app.push($NGINX_IMAGE_NAME)
+                        app.push($FRONTEND_IMAGE_NAME)
+                        app.push($PROXY_IMAGE_NAME)
+                    }
                 }
                 // script{
                 //     sh '''
