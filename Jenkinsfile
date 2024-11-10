@@ -39,7 +39,7 @@ pipeline {
                 }
             }
         }
-        stage('Configurando archivo .env'){
+        stage('Preparando environment para la pipeline'){
             steps{
                 script{
                    sh '''
@@ -53,6 +53,18 @@ pipeline {
                         sed -i "/# DB_PASSWORD=/c\\DB_PASSWORD=${DB_PASSWORD}" "./.env"
                         cd ..
                     '''
+
+                    sh 'docker network create my_app'
+
+                    docker.images(API_IMAGE_NAME).withRun('-d --name api --network my_app')
+
+                }
+            }
+        }
+        stage('Analisis de código estático'){
+            steps{
+                script{
+                   sh "docker exec api ./vendor/bin/phpstan analyse"
                 }
             }
         }
