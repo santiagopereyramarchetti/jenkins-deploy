@@ -33,7 +33,7 @@ pipeline {
             steps{
                 script{
                     docker.build(MYSQL_IMAGE_NAME, "-f ${MYSQL_DOCKERFILE_PATH} .")
-                    docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_PATH} .")
+                    docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_PATH} --no-cache .")
                     docker.build(NGINX_IMAGE_NAME, "-f ${NGINX_DOCKERFILE_PATH} .")
                     docker.build(FRONTEND_IMAGE_NAME, "-f ${FRONTEND_DOCKERFILE_PATH} --target ${FRONTEND_TARGET_STAGE} .")
                     docker.build(PROXY_IMAGE_NAME, "-f ${PROXY_DOCKERFILE_PATH} --target ${PROXY_TARGET_STAGE} .")
