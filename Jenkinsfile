@@ -55,7 +55,7 @@ pipeline {
                     '''
                     sh 'docker network create my_app'
 
-                    docker.images(API_IMAGE_NAME).withRun('-d --name api --network my_app')
+                    sh 'docker run -d --name api --network my_app ${API_IMAGE_NAME}'
                 }
             }
         }
