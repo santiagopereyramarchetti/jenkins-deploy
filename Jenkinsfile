@@ -53,9 +53,7 @@ pipeline {
                         sed -i "/# DB_PASSWORD=/c\\DB_PASSWORD=${DB_PASSWORD}" "./.env"
                         cd ..
                     '''
-                    docker.withRun{
-                        sh 'docker network create my_app'
-                    }
+                    docker.withRun('docker network create my_app')
 
                     docker.images(API_IMAGE_NAME).withRun('-d --name api --network my_app')
                 }
