@@ -34,6 +34,8 @@ pipeline {
 
         MAX_WAIT=120
         WAIT_INTERVAL=10
+
+        dockerHubCredentials = 'dockerhub'
     }
 
     stages{
@@ -128,12 +130,11 @@ pipeline {
         stage('Pusheando images hacia Dockerhub'){
             steps{
                 script{
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        app.push($MYSQL_IMAGE_NAME)
-                        app.push($API_IMAGE_NAME)
-                        app.push($NGINX_IMAGE_NAME)
-                        app.push($FRONTEND_IMAGE_NAME)
-                        app.push($PROXY_IMAGE_NAME)
+                    withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+ 
+                        // Push the image
+                        sh "docker push ${MYSQL_IMAGE_NAME}"
                     }
                 }
                 // script{
