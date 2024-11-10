@@ -8,6 +8,7 @@ pipeline {
         API_IMAGE_NAME = "santiagopereyramarchetti/api:1.2"
         API_DOCKERFILE_PATH = "./docker/laravel/Dockerfile.laravel"
         API_CONTAINER_NAME = "api"
+        API_TARGET_STAGE = "dev"
 
         NGINX_IMAGE_NAME = "santiagopereyramarchetti/nginx:1.2"
         NGINX_DOCKERFILE_PATH = "./docker/nginx/Dockerfile.nginx"
@@ -33,7 +34,7 @@ pipeline {
             steps{
                 script{
                     docker.build(MYSQL_IMAGE_NAME, "-f ${MYSQL_DOCKERFILE_PATH} .")
-                    docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_PATH} --no-cache .")
+                    docker.build(API_IMAGE_NAME, "-f ${API_DOCKERFILE_PATH} --target ${API_TARGET_STAGE} .")
                     docker.build(NGINX_IMAGE_NAME, "-f ${NGINX_DOCKERFILE_PATH} .")
                     docker.build(FRONTEND_IMAGE_NAME, "-f ${FRONTEND_DOCKERFILE_PATH} --target ${FRONTEND_TARGET_STAGE} .")
                     docker.build(PROXY_IMAGE_NAME, "-f ${PROXY_DOCKERFILE_PATH} --target ${PROXY_TARGET_STAGE} .")
