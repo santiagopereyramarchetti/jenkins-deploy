@@ -133,19 +133,15 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
  
-                        // Push the image
-                        sh "docker push ${MYSQL_IMAGE_NAME}"
+                        sh '''
+                            docker push ${MYSQL_IMAGE_NAME}
+                            docker push ${API_IMAGE_NAME}
+                            docker push ${NGINX_IMAGE_NAME}
+                            docker push ${FRONTEND_IMAGE_NAME}
+                            docker push ${PROXY_IMAGE_NAME}
+                        '''
                     }
                 }
-                // script{
-                //     sh '''
-                //         docker push ${MYSQL_IMAGE_NAME}
-                //         docker push ${API_IMAGE_NAME}
-                //         docker push ${NGINX_IMAGE_NAME}
-                //         docker push ${FRONTEND_IMAGE_NAME}
-                //         docker push ${PROXY_IMAGE_NAME}
-                //     '''
-                // }
             }
         }
     }
