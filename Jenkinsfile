@@ -152,14 +152,20 @@ pipeline {
                 sh 'docker stop ${API_CONTAINER_NAME} || true'
                 sh 'docker stop ${MYSQL_CONTAINER_NAME} || true'
                 sh 'docker stop ${REDIS_CONTAINER_NAME} || true'
+                sh 'docker stop ${FRONTEND_CONTAINER_NAME} || true'
+                sh 'docker stop ${PROXY_CONTAINER_NAME} || true'
 
                 sh 'docker rm -f ${API_CONTAINER_NAME} || true'
                 sh 'docker rm -f ${MYSQL_CONTAINER_NAME} || true'
                 sh 'docker rm -f ${REDIS_CONTAINER_NAME} || true'
+                sh 'docker rm -f ${FRONTEND_CONTAINER_NAME} || true'
+                sh 'docker rm -f ${PROXY_CONTAINER_NAME} || true'
 
                 sh 'docker rmi -f ${API_IMAGE_NAME} || true'
                 sh 'docker rmi -f ${MYSQL_IMAGE_NAME} || true'
                 sh 'docker rmi -f ${REDIS_IMAGE_NAME} || true'
+                sh 'docker rmi -f ${FRONTEND_IMAGE_NAME} || true'
+                sh 'docker rmi -f ${PROXY_IMAGE_NAME} || true'
 
                 sh 'docker network rm my_app || true'
             }
