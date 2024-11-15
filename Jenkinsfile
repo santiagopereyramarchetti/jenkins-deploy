@@ -119,7 +119,17 @@ pipeline {
         stage('Analisis de la calidad del código'){
             steps{
                 script{
-                   sh 'docker exec ${API_CONTAINER_NAME} php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90'
+                    def userInput = input(
+                        message: 'Ejecutar este step?',
+                        parameters: [
+                            choice(name: 'Selecciona una opcion', choices: ['Si', 'No'], description: 'Elegir si queres ejecutar este step')    
+                        ]
+                    )
+                    if (userInput == 'Si'){
+                        sh 'docker exec ${API_CONTAINER_NAME} php artisan insights --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=90'
+                    } else {
+                        echo 'Step omitido. Siguiendo adelante...'
+                    }
                 }
             }
         }
