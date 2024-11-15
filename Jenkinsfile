@@ -39,6 +39,9 @@ pipeline {
         WAIT_INTERVAL=10
 
         dockerHubCredentials = 'dockerhub'
+
+        REMOTE_HOST = 'vagrant@192.168.10.50'
+        LARAVEL_ENV = credentials('laravel-env')
     }
 
     stages{
