@@ -143,23 +143,23 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Pusheando images hacia Dockerhub'){
-            steps{
-                script{
-                    withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+        // stage('Pusheando images hacia Dockerhub'){
+        //     steps{
+        //         script{
+        //             withCredentials([usernamePassword(credentialsId: dockerHubCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+        //                 sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
  
-                        // sh '''
-                        //     docker push ${MYSQL_IMAGE_NAME}
-                        //     docker push ${API_IMAGE_NAME}
-                        //     docker push ${NGINX_IMAGE_NAME}
-                        //     docker push ${FRONTEND_IMAGE_NAME}
-                        //     docker push ${PROXY_IMAGE_NAME}
-                        // '''
-                    }
-                }
-            }
-        }
+        //                 sh '''
+        //                     docker push ${MYSQL_IMAGE_NAME}
+        //                     docker push ${API_IMAGE_NAME}
+        //                     docker push ${NGINX_IMAGE_NAME}
+        //                     docker push ${FRONTEND_IMAGE_NAME}
+        //                     docker push ${PROXY_IMAGE_NAME}
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Deployando nueva release'){
             steps{
@@ -168,22 +168,22 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no ${REMOTE_HOST} 'rm -f /tmp/.env'
                         scp -o StrictHostKeyChecking=no ${LARAVEL_ENV} ${REMOTE_HOST}:/tmp/.env
                         scp -o StrictHostKeyChecking=no ./docker/jenkins/deploy.sh ${REMOTE_HOST}:/tmp/deploy.sh
-                        ssh -o StrictHostKeyChecking=no ${REMOTE_HOST} "bash /tmp/deploy.sh ${MYSQL_ROOT_PASSWORD} \
-                                                ${DB_USER} \
-                                                ${DB_PASSWORD} \
-                                                ${MAX_WAIT} \
-                                                ${WAIT_INTERVAL} \
-                                                ${MYSQL_IMAGE_NAME} \
-                                                ${MYSQL_CONTAINER_NAME} \
-                                                ${API_IMAGE_NAME} \
-                                                ${API_CONTAINER_NAME} \
-                                                ${NGINX_IMAGE_NAME} \
-                                                ${NGINX_CONTAINER_NAME} \
-                                                ${FRONTEND_IMAGE_NAME} \
-                                                ${FRONTEND_CONTAINER_NAME} \
-                                                ${PROXY_IMAGE_NAME} \
-                                                ${PROXY_CONTAINER_NAME} \
-                                                ${REDIS_IMAGE_NAME} \
+                        ssh -o StrictHostKeyChecking=no ${REMOTE_HOST} "bash /tmp/deploy.sh ${MYSQL_ROOT_PASSWORD} 
+                                                ${DB_USER} 
+                                                ${DB_PASSWORD} 
+                                                ${MAX_WAIT} 
+                                                ${WAIT_INTERVAL} 
+                                                ${MYSQL_IMAGE_NAME} 
+                                                ${MYSQL_CONTAINER_NAME} 
+                                                ${API_IMAGE_NAME} 
+                                                ${API_CONTAINER_NAME} 
+                                                ${NGINX_IMAGE_NAME} 
+                                                ${NGINX_CONTAINER_NAME} 
+                                                ${FRONTEND_IMAGE_NAME} 
+                                                ${FRONTEND_CONTAINER_NAME} 
+                                                ${PROXY_IMAGE_NAME} 
+                                                ${PROXY_CONTAINER_NAME} 
+                                                ${REDIS_IMAGE_NAME} 
                                                 ${REDIS_CONTAINER_NAME}"
                     '''
                 }
