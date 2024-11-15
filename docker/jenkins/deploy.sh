@@ -23,30 +23,6 @@ PROXY_CONTAINER_NAME=${15}
 REDIS_IMAGE_NAME=${16}
 REDIS_CONTAINER_NAME=${17}
 
-# echo $MYSQL_ROOT_PASSWORD
-# echo $DB_USER
-# echo $DB_PASSWORD
-# echo $MAX_WAIT
-# echo $WAIT_INTERVAL
-
-# echo $MYSQL_IMAGE_NAME
-# echo $MYSQL_CONTAINER_NAME
-
-# echo $API_IMAGE_NAME
-# echo $API_CONTAINER_NAME
-
-# echo $NGINX_IMAGE_NAME
-# echo $NGINX_CONTAINER_NAME
-
-# echo $FRONTEND_IMAGE_NAME
-# echo $FRONTEND_CONTAINER_NAME
-
-# echo $PROXY_IMAGE_NAME
-# echo $PROXY_CONTAINER_NAME
-
-# echo $REDIS_IMAGE_NAME
-# echo $REDIS_CONTAINER_NAME
-
 if ! docker network ls --format '{{.Name}}' | grep -q 'my_app' ; then
     echo 'Red my_app no existe. Creando...'
     docker network create my_app
