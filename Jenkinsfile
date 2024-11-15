@@ -13,14 +13,17 @@ pipeline {
 
         NGINX_IMAGE_NAME = "santiagopereyramarchetti/nginx:1.2"
         NGINX_DOCKERFILE_PATH = "./docker/nginx/Dockerfile.nginx"
+        NGINX_CONTAINER_NAME = "nginx"
 
         FRONTEND_IMAGE_NAME = "santiagopereyramarchetti/frontend:1.2"
         FRONTEND_DOCKERFILE_PATH = "./docker/vue/Dockerfile.vue"
         FRONTEND_TARGET_STAGE = "prod"
+        FRONTEND_CONTAINER_NAME = "frontend"
 
         PROXY_IMAGE_NAME = "santiagopereyramarchetti/proxy:1.2"
         PROXY_DOCKERFILE_PATH = "./docker/proxy/Dockerfile.proxy"
         PROXY_TARGET_STAGE = "prod"
+        PROXY_CONTAINER_NAME = "proxy"
 
         REDIS_IMAGE_NAME = "redis:7-alpine"
         REDIS_CONTAINER_NAME = "redis"
@@ -144,6 +147,37 @@ pipeline {
                 }
             }
         }
+
+        stage('Deployando nueva release'){
+            steps{
+                sshagent(credentials: ['vps-docker']){
+                    sh '''
+                        ssh -o StrictHostKeyChecking=no \$REMOTE_HOST 'rm -f /tmp/.env'
+                        scp -o StrictHostKeyChecking=no \$LARAVEL_ENV \$REMOTE_HOST:/tmp/.env
+                        scp -o StrictHostKeyChecking=no ./docker/jenkins/deploy.sh \$REMOTE_HOST:/tmp/deploy.sh
+                        ssh -o StrictHostKeyChecking=no \$REMOTE_HOST "bash /tmp/deploy.sh \$MYSQL_ROOT_PASSWORD \
+                                                \$DB_USER \
+                                                \$DB_PASSWORD \
+                                                \$MAX_WAIT \
+                                                \$WAIT_INTERVAL \
+                                                \$MYSQL_IMAGE_NAME \
+                                                \$MYSQL_CONTAINER_NAME \
+                                                \$API_IMAGE_NAME \
+                                                \$API_CONTAINER_NAME \
+                                                \$NGINX_IMAGE_NAME \
+                                                \$NGINX_CONTAINER_NAME \
+                                                \$FRONTEND_IMAGE_NAME \
+                                                \$FRONTEND_CONTAINER_NAME \
+                                                \$PROXY_IMAGE_NAME \
+                                                \$PROXY_CONTAINER_NAME \
+                                                \$REDIS_IMAGE_NAME \
+                                                \$REDIS_CONTAINER_NAME"
+                    '''
+                }
+            }
+        }
+
+
     }
 
     post{
