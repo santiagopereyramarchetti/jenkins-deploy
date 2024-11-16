@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('H * * * *')
+    }
+
     environment {        
         MYSQL_IMAGE_NAME = "santiagopereyramarchetti/mysql:1.2"
         MYSQL_DOCKERFILE_PATH = "./docker/mysql/Dockerfile.mysql"
